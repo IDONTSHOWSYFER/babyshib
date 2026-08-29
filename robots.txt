@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://idontshowsyfer.github.io/babyshib/sitemap.xml

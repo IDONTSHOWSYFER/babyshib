@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>BABY SHIB ($BABYSHIB) — Continuing the Legacy on Solana</title>
+<meta name="description" content="Baby Shib is a community-run Solana memecoin continuing the Shiba legacy. Mint authority revoked, freeze authority revoked, 0% tax. Buy $BABYSHIB on Jupiter.">
+<meta name="theme-color" content="#F90101">
+<link rel="icon" href="assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="canonical" href="https://idontshowsyfer.github.io/babyshib/">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="BABY SHIB — Much Woof. 🐶">
+<meta property="og:description" content="Community-run Solana memecoin continuing the Shiba legacy. Mint revoked · Freeze revoked · 0% tax.">
+<meta property="og:image" content="assets/logo.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@Babyshibsolana">
+<meta name="twitter:title" content="BABY SHIB — Much Woof. 🐶">
+<meta name="twitter:description" content="Community-run Solana memecoin continuing the Shiba legacy.">
+<meta name="twitter:image" content="assets/logo.jpg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- ══════════ TICKER ══════════ -->
+<div class="ticker" aria-hidden="true">
+  <div class="ticker__track" id="tickerTrack"></div>
+</div>
+
+<!-- ══════════ NAV ══════════ -->
+<header class="nav" id="nav">
+  <a class="nav__brand" href="#top">
+    <img src="assets/logo.jpg" alt="Baby Shib logo" width="44" height="44">
+    <span>BABY SHIB</span>
+  </a>
+  <nav class="nav__links">
+    <a href="#buy">How to buy</a>
+    <a href="#chart">Chart</a>
+    <a href="#tokenomics">Tokenomics</a>
+    <a href="#memes">Memes</a>
+    <a href="#faq">FAQ</a>
+  </nav>
+  <a class="btn btn--sm btn--dark" href="https://jup.ag/swap/SOL-5nZMRLSFnA3oWXXswKyyaW5or2FFy34tkTUhtkWPpump" target="_blank" rel="noopener" data-cta="nav">BUY NOW</a>
+</header>
+
+<!-- ══════════ HERO ══════════ -->
+<main id="top">
+<section class="hero">
+  <div class="hero__glow" aria-hidden="true"></div>
+  <div class="paws" id="paws" aria-hidden="true"></div>
+
+  <div class="hero__inner">
+    <div class="hero__copy">
+      <span class="pill"><span class="dot"></span> COMMUNITY TAKEOVER · LIVE ON SOLANA</span>
+      <h1 class="hero__title">BABY<br><span class="stroke">SHIB</span></h1>
+      <p class="hero__sub">Just here to continue the legacy<br>and spread the love. <strong>Much Woof!</strong> 🐶</p>
+
+      <div class="hero__cta">
+        <a class="btn btn--xl btn--yellow" href="https://jup.ag/swap/SOL-5nZMRLSFnA3oWXXswKyyaW5or2FFy34tkTUhtkWPpump" target="_blank" rel="noopener" data-cta="hero">
+          BUY $BABYSHIB <span class="btn__arrow">→</span>
+        </a>
+        <a class="btn btn--xl btn--dark" href="#chart">LIVE CHART</a>
+      </div>
+
+      <div class="ca" id="caBox" role="button" tabindex="0" aria-label="Copy contract address">
+        <div class="ca__label">CONTRACT ADDRESS (CA)</div>
+        <div class="ca__row">
+          <code id="caText">5nZMRLSFnA3oWXXswKyyaW5or2FFy34tkTUhtkWPpump</code>
+          <span class="ca__copy" id="caCopy">COPY</span>
+        </div>
+      </div>
+
+      <ul class="trust">
+        <li><span>✓</span> Mint revoked</li>
+        <li><span>✓</span> Freeze revoked</li>
+        <li><span>✓</span> 0% tax</li>
+      </ul>
+    </div>
+
+    <div class="hero__art">
+      <div class="hero__disc" aria-hidden="true"></div>
+      <img class="hero__mascot float" src="assets/mascot.png" alt="Baby Shib mascot" width="520" height="520">
+      <div class="hero__badge" aria-hidden="true">
+        <span>MUCH<br>WOOF<br>🐶</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ LIVE STATS ══════════ -->
+<section class="stats" id="stats">
+  <div class="wrap">
+    <div class="stats__grid">
+      <div class="stat">
+        <div class="stat__k">PRICE</div>
+        <div class="stat__v" id="statPrice">—</div>
+        <div class="stat__d" id="statChange">24h</div>
+      </div>
+      <div class="stat">
+        <div class="stat__k">MARKET CAP</div>
+        <div class="stat__v" id="statMcap">—</div>
+        <div class="stat__d">fully diluted</div>
+      </div>
+      <div class="stat">
+        <div class="stat__k">LIQUIDITY</div>
+        <div class="stat__v" id="statLiq">—</div>
+        <div class="stat__d">pooled</div>
+      </div>
+      <div class="stat">
+        <div class="stat__k">24H VOLUME</div>
+        <div class="stat__v" id="statVol">—</div>
+        <div class="stat__d">traded</div>
+      </div>
+    </div>
+    <p class="stats__note">Live from DexScreener · updates every 30s · <span id="statUpdated">connecting…</span></p>
+  </div>
+</section>
+
+<!-- ══════════ STORY ══════════ -->
+<section class="story">
+  <div class="wrap story__inner">
+    <div class="story__art">
+      <img src="assets/meme-2.jpg" alt="Baby Shib skating" loading="lazy" width="640" height="640">
+    </div>
+    <div class="story__copy">
+      <h2 class="h2">THE LEGACY<br>GOT A <span class="hl">BABY</span>.</h2>
+      <p>Every dog has its day — this one is just getting started. Baby Shib is a <strong>community takeover</strong>: no dev promises, no roadmap fairytales, no locked-in team.</p>
+      <p>The chain does the talking. Mint authority is <strong>revoked</strong>. Freeze authority is <strong>revoked</strong>. There is no tax on buys or sells. What's left is the part that actually matters in a memecoin: <strong>the people holding it.</strong></p>
+      <div class="story__cta">
+        <a class="btn btn--dark" href="https://t.me/Thebabyshibcto" target="_blank" rel="noopener" data-cta="story-tg">JOIN THE PACK →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ SAFETY / VERIFIED ══════════ -->
+<section class="verified">
+  <div class="wrap">
+    <h2 class="h2 center">VERIFIED <span class="hl">ON-CHAIN</span></h2>
+    <p class="lead center">Don't trust a website. Check it yourself — every claim below is readable straight from Solana.</p>
+    <div class="cards">
+      <article class="card">
+        <div class="card__icon">🔒</div>
+        <h3>Mint revoked</h3>
+        <p>Mint authority is <code>null</code>. Nobody can print new supply. Ever.</p>
+      </article>
+      <article class="card">
+        <div class="card__icon">🧊</div>
+        <h3>Freeze revoked</h3>
+        <p>Freeze authority is <code>null</code>. No one can lock your wallet or block your sell.</p>
+      </article>
+      <article class="card">
+        <div class="card__icon">🚫</div>
+        <h3>0% tax</h3>
+        <p>Standard SPL token — no transfer fee extension. You buy what you pay for.</p>
+      </article>
+      <article class="card">
+        <div class="card__icon">👥</div>
+        <h3>Community run</h3>
+        <p>A CTO. The chart, the memes and the marketing are driven by holders.</p>
+      </article>
+    </div>
+    <div class="center">
+      <a class="btn btn--ghost btn--sm" href="https://solscan.io/token/5nZMRLSFnA3oWXXswKyyaW5or2FFy34tkTUhtkWPpump" target="_blank" rel="noopener">VERIFY ON SOLSCAN ↗</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ HOW TO BUY ══════════ -->
+<section class="buy" id="buy">
+  <div class="wrap">
+    <h2 class="h2 center">HOW TO BUY <span class="hl">IN 4 STEPS</span></h2>
+    <p class="lead center">First time on Solana? It takes about three minutes.</p>
+
+    <ol class="steps">
+      <li class="step">
+        <div class="step__n">01</div>
+        <h3>Get a wallet</h3>
+        <p>Install <a href="https://phantom.app/" target="_blank" rel="noopener">Phantom</a> or <a href="https://solflare.com/" target="_blank" rel="noopener">Solflare</a> — browser extension or phone app. Save your seed phrase offline.</p>
+      </li>
+      <li class="step">
+        <div class="step__n">02</div>
+        <h3>Fund it with SOL</h3>
+        <p>Buy SOL on any exchange and send it to your wallet address, or use the in-wallet card option. Keep a little extra for network fees.</p>
+      </li>
+      <li class="step">
+        <div class="step__n">03</div>
+        <h3>Swap on Jupiter</h3>
+        <p>Open Jupiter, paste the CA, set your amount and confirm. Slippage of 3–5% usually does the job on a moving chart.</p>
+      </li>
+      <li class="step">
+        <div class="step__n">04</div>
+        <h3>Hold &amp; woof</h3>
+        <p>Welcome to the pack. Jump in the Telegram, post memes, and be early to the next chapter of the legacy.</p>
+      </li>
+    </ol>
+
+    <div class="center">
+      <a class="btn btn--xl btn--yellow" href="https://jup.ag/swap/SOL-5nZMRLSFnA3oWXXswKyyaW5or2FFy34tkTUhtkWPpump" target="_blank" rel="noopener" data-cta="steps">
+        SWAP ON JUPITER <span class="btn__arrow">→</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ CHART ══════════ -->
+<section class="chart" id="chart">
+  <div class="wrap">
+    <h2 class="h2 center">LIVE <span class="hl">CHART</span></h2>
+    <div class="chart__frame">
+      <iframe title="BABYSHIB live chart" src="https://dexscreener.com/solana/DSiMBS1ueSLmjpt9WB9XKMFeuUjUK1YKcrSn7R2etQDX?embed=1&loadChartSettings=0&trades=0&tabs=0&info=0&chartLeftToolbar=0&chartTheme=dark&theme=dark&chartStyle=1&chartType=usd&interval=15" loading="lazy"></iframe>
+    </div>
+    <div class="chart__links">
+      <a class="btn btn--sm btn--ghost" href="https://dexscreener.com/solana/dsimbs1ueslmjpt9wb9xkmfeuujuk1ykcrsn7r2etqdx" target="_blank" rel="noopener">DEXSCREENER ↗</a>
+      <a class="btn btn--sm btn--ghost" href="https://jup.ag/tokens/5nZMRLSFnA3oWXXswKyyaW5or2FFy34tkTUhtkWPpump" target="_blank" rel="noopener">JUPITER ↗</a>
+      <a class="btn btn--sm btn--ghost" href="https://solscan.io/token/5nZMRLSFnA3oWXXswKyyaW5or2FFy34tkTUhtkWPpump" target="_blank" rel="noopener">SOLSCAN ↗</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ TOKENOMICS ══════════ -->
+<section class="tokenomics" id="tokenomics">
+  <div class="wrap">
+    <h2 class="h2 center">TOKENOMICS<br><span class="hl">SO SIMPLE, A BABY GETS IT</span></h2>
+    <div class="tok">
+      <div class="tok__item"><div class="tok__v" data-count="1000000000" data-suffix="">1B</div><div class="tok__k">Total supply</div></div>
+      <div class="tok__item"><div class="tok__v">0<span>%</span></div><div class="tok__k">Buy / sell tax</div></div>
+      <div class="tok__item"><div class="tok__v">0<span>%</span></div><div class="tok__k">Team allocation<br><small>at launch</small></div></div>
+      <div class="tok__item"><div class="tok__v">100<span>%</span></div><div class="tok__k">Community owned</div></div>
+    </div>
+    <p class="tokenomics__note">Fair launch on pump.fun · trading live on PumpSwap · supply is fixed and cannot be increased.</p>
+  </div>
+</section>
+
+<!-- ══════════ MEMES ══════════ -->
+<section class="memes" id="memes">
+  <div class="wrap">
+    <h2 class="h2 center">THE <span class="hl">MEME</span> VAULT</h2>
+    <p class="lead center">Fuel for the timeline. Right-click, save, post, tag <a href="https://x.com/Babyshibsolana" target="_blank" rel="noopener">@Babyshibsolana</a>.</p>
+    <div class="gallery">
+      <figure><img src="assets/meme-1.jpg" alt="Baby Shib on a 60ft diving board" loading="lazy" width="680" height="680"></figure>
+      <figure><img src="assets/meme-2.jpg" alt="Baby Shib doing a kickflip" loading="lazy" width="680" height="680"></figure>
+      <figure><img src="assets/meme-3.jpg" alt="Baby Shib trading desk" loading="lazy" width="680" height="680"></figure>
+      <figure><img src="assets/meme-4.jpg" alt="Baby Shib standing tall" loading="lazy" width="680" height="680"></figure>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ ROADMAP ══════════ -->
+<section class="road">
+  <div class="wrap">
+    <h2 class="h2 center">THE <span class="hl">WOOFMAP</span></h2>
+    <div class="road__line">
+      <div class="road__item"><div class="road__dot">🐾</div><h3>Phase 1 — Wake up</h3><p>CTO taken. Socials reclaimed. Chart alive, holders growing, memes flowing.</p></div>
+      <div class="road__item"><div class="road__dot">🐾</div><h3>Phase 2 — Bark loud</h3><p>Trending pushes, raid squads, creator collabs and community art contests.</p></div>
+      <div class="road__item"><div class="road__dot">🐾</div><h3>Phase 3 — Grow up</h3><p>Listings, tracker coverage, and a pack big enough that the timeline can't ignore it.</p></div>
+      <div class="road__item"><div class="road__dot">🚀</div><h3>Phase 4 — Much woof</h3><p>The legacy continues. No promises, just paws on the ground and a community that keeps showing up.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ FAQ ══════════ -->
+<section class="faq" id="faq">
+  <div class="wrap wrap--narrow">
+    <h2 class="h2 center">QUESTIONS, <span class="hl">ANSWERED</span></h2>
+    <details><summary>What is $BABYSHIB?</summary><p>A community-run memecoin on Solana carrying the Shiba legacy forward. No utility promises — it's a meme, a culture, and a chart, run by the people who hold it.</p></details>
+    <details><summary>Is the contract safe?</summary><p>Mint authority and freeze authority are both revoked on-chain, and it's a standard SPL token with no transfer tax. That removes the three classic rug levers — but a memecoin is still a high-risk asset. Verify everything on Solscan and never invest more than you can lose.</p></details>
+    <details><summary>Where do I buy it?</summary><p>Any Solana DEX aggregator. Jupiter is the easiest — the button on this page opens the swap with the right token preloaded.</p></details>
+    <details><summary>Why is my swap failing?</summary><p>Raise slippage to 3–5% and make sure you left ~0.01 SOL in your wallet for fees. On fast-moving candles, transactions can expire and simply need a retry.</p></details>
+    <details><summary>What does "CTO" mean?</summary><p>Community Take Over — the original deployer stepped away and holders took the wheel: socials, marketing, memes, everything.</p></details>
+    <details><summary>How do I help?</summary><p>Hold, post, raid, and bring one friend. Memecoins move on attention. Start in the <a href="https://t.me/Thebabyshibcto" target="_blank" rel="noopener">Telegram</a>.</p></details>
+  </div>
+</section>
+
+<!-- ══════════ FINAL CTA ══════════ -->
+<section class="final">
+  <div class="wrap center">
+    <img class="final__logo float" src="assets/mascot.png" alt="" width="190" height="190" loading="lazy">
+    <h2 class="h2">DON'T BE THE ONE<br>WHO <span class="hl">WATCHED</span>.</h2>
+    <p class="lead">Every legend had a moment where it was still small. This is that moment.</p>
+    <div class="final__cta">
+      <a class="btn btn--xl btn--yellow" href="https://jup.ag/swap/SOL-5nZMRLSFnA3oWXXswKyyaW5or2FFy34tkTUhtkWPpump" target="_blank" rel="noopener" data-cta="final">BUY $BABYSHIB <span class="btn__arrow">→</span></a>
+    </div>
+    <div class="socials">
+      <a href="https://x.com/Babyshibsolana" target="_blank" rel="noopener" aria-label="X (Twitter)">
+        <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        <span>Twitter / X</span>
+      </a>
+      <a href="https://t.me/Thebabyshibcto" target="_blank" rel="noopener" aria-label="Telegram">
+        <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 7.617c.18-.002.578.042.836.252a.91.91 0 0 1 .307.653c.008.19.018.617-.035.95-.194 1.244-.897 5.316-1.253 6.996-.15.711-.447.95-.734.976-.625.058-1.1-.412-1.705-.808-.947-.62-1.482-1.007-2.401-1.612-1.062-.7-.374-1.084.232-1.712.159-.164 2.913-2.67 2.966-2.897.007-.028.013-.134-.05-.19s-.156-.037-.223-.022c-.095.022-1.608 1.022-4.54 3-.429.295-.818.439-1.166.431-.384-.008-1.123-.217-1.672-.396-.673-.219-1.208-.335-1.161-.706.024-.194.29-.392.798-.594 3.127-1.362 5.212-2.26 6.256-2.694 2.978-1.239 3.597-1.454 4-1.461z"/></svg>
+        <span>Telegram</span>
+      </a>
+      <a href="https://dexscreener.com/solana/dsimbs1ueslmjpt9wb9xkmfeuujuk1ykcrsn7r2etqdx" target="_blank" rel="noopener" aria-label="DexScreener">
+        <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M3 3h2v16h16v2H3zm5 11 3.5-4.5 3 3L20 6l1.5 1.5-6 7-3-3L9 16z"/></svg>
+        <span>DexScreener</span>
+      </a>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot__top">
+      <img src="assets/logo.jpg" alt="" width="52" height="52">
+      <div>
+        <strong>BABY SHIB</strong>
+        <div class="foot__ca">5nZMRLSFnA3oWXXswKyyaW5or2FFy34tkTUhtkWPpump</div>
+      </div>
+    </div>
+    <p class="foot__disc">$BABYSHIB is a meme coin with no intrinsic value, no expectation of financial return and no formal team or roadmap. Nothing on this page is financial advice. Crypto is volatile and you can lose everything — only spend what you can afford to lose, and always do your own research.</p>
+    <p class="foot__c">© <span id="year">2026</span> Baby Shib Community · Much Woof 🐶</p>
+  </div>
+</footer>
+
+<!-- ══════════ MOBILE STICKY BUY ══════════ -->
+<a class="stickybuy" href="https://jup.ag/swap/SOL-5nZMRLSFnA3oWXXswKyyaW5or2FFy34tkTUhtkWPpump" target="_blank" rel="noopener" data-cta="sticky">
+  <span class="stickybuy__l">BUY $BABYSHIB</span>
+  <span class="stickybuy__r" id="stickyPrice">—</span>
+</a>
+
+<div class="toast" id="toast">Contract address copied 🐾</div>
+
+<script src="app.js"></script>
+</body>
+</html>
