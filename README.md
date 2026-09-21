@@ -5,7 +5,7 @@ Landing page / sales funnel for **Baby Shib**, a community-run memecoin on Solan
 - **Contract:** `5nZMRLSFnA3oWXXswKyyaW5or2FFy34tkTUhtkWPpump`
 - **Chart:** [DexScreener](https://dexscreener.com/solana/dsimbs1ueslmjpt9wb9xkmfeuujuk1ykcrsn7r2etqdx)
 - **Buy:** [Jupiter](https://jup.ag/swap/SOL-5nZMRLSFnA3oWXXswKyyaW5or2FFy34tkTUhtkWPpump)
-- **X:** [@Babyshibacto](https://x.com/Babyshibacto) · **Telegram:** [t.me/Thebabyshibcto](https://t.me/Thebabyshibcto)
+- **X:** [@babyshibhq](https://x.com/babyshibhq) · **Telegram:** [t.me/Thebabyshibcto](https://t.me/Thebabyshibcto)
 
 ## Stack
 
