@@ -25,108 +25,21 @@
     toastT = setTimeout(() => toastEl.classList.remove('show'), 2200);
   };
 
-  /* ─────────── realms ─────────── */
-  const REALM_LABEL = { arena: 'THE ARENA', life: 'THE GOOD LIFE', trench: 'THE TRENCHES' };
-  const labelEl = $('#realmLabel');
-  let realm = 'arena';
-  function setRealm(r) {
-    if (r === realm) return;
-    realm = r;
-    root.dataset.realm = r;
-    if (labelEl) labelEl.textContent = REALM_LABEL[r] || '';
-    document.querySelector('meta[name="theme-color"]')
-      ?.setAttribute('content', r === 'arena' ? '#0B0B0B' : r === 'life' ? '#FFF6E9' : '#FA0001');
-  }
-
-  /* ─────────── one scroll engine ─────────── */
-  const metrics = new Map();
-  function measure() {
-    metrics.clear();
-    ['#gate1', '#gate2', '#arena', '#goodlife', '#trenches'].forEach(sel => {
-      const el = $(sel);
-      if (el) {
-        const r = el.getBoundingClientRect();
-        metrics.set(sel, { top: r.top + scrollY, h: el.offsetHeight });
-      }
+  /* ─────────── scroll: one passive listener, one job ───────────
+     The realm is carried by each section's own class, so there is no global
+     state to drive and nothing to strand if a frame never runs. */
+  const dock = $('#dock');
+  let ticking = false;
+  const onScroll = () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => {
+      ticking = false;
+      if (dock) dock.classList.toggle('up', scrollY > innerHeight * 0.75);
     });
-  }
-  const progress = sel => {
-    const m = metrics.get(sel);
-    if (!m) return -1;
-    const p = (scrollY - m.top) / Math.max(1, m.h - innerHeight);
-    return Math.min(1, Math.max(0, p));
   };
-
-  const disc1 = $('#disc1'), lab1 = $('#lab1');
-  const blades = $('#blades'), slab2 = $('#slab2');
-  let bladesFired = false, dirty = true, rafId = 0;
-
-  function frame() {
-    rafId = 0;
-    if (FLAT) { dirty = false; return; }
-    if (!dirty) return schedule();
-    dirty = false;
-
-    if (!REDUCED) {
-      /* GATE I — the disc swallows the page */
-      const p1 = progress('#gate1');
-      if (p1 >= 0 && disc1) {
-        const s = p1 * 26;
-        disc1.style.transform = `scale(${s})`;
-        disc1.style.willChange = p1 > 0 && p1 < 0.99 ? 'transform' : 'auto';
-        if (lab1) lab1.style.opacity = p1 > 0.08 && p1 < 0.62 ? String(Math.min(1, (p1 - 0.08) * 6)) : '0';
-        if (p1 >= 0.5) setRealm('life');
-        else if (p1 > 0 && p1 < 0.5 && realm === 'life') setRealm('arena');
-      } else if (disc1) {
-        disc1.style.transform = 'scale(0)';
-        disc1.style.willChange = 'auto';
-      }
-
-      /* GATE II — four blades slam in */
-      const p2 = progress('#gate2');
-      if (p2 > 0.22 && !bladesFired) {
-        bladesFired = true;
-        blades?.classList.add('fire');
-        setTimeout(() => { setRealm('trench'); slab2?.classList.add('show'); }, 380);
-        setTimeout(() => { slab2?.classList.remove('show'); blades?.classList.remove('fire'); }, 1500);
-      }
-      if (p2 <= 0.05 && bladesFired && scrollY < (metrics.get('#gate2')?.top || 0)) {
-        bladesFired = false;
-        setRealm('life');
-      }
-    } else {
-      const p1 = progress('#gate1'), p2 = progress('#gate2');
-      if (p2 > 0.3) setRealm('trench');
-      else if (p1 > 0.5) setRealm('life');
-      else if (p1 >= 0 || scrollY < (metrics.get('#gate1')?.top || 1e9)) setRealm('arena');
-    }
-
-    /* Position alone decides the realm — exhaustive and monotonic, so there is
-       no scroll offset where the realm is undefined and no way to strand the
-       page in the wrong palette by scrolling back up. */
-    const g1 = metrics.get('#gate1'), g2 = metrics.get('#gate2');
-    if (g1 && g2) {
-      const y = scrollY;
-      if (y < g1.top + (g1.h || innerHeight) * 0.5) { setRealm('arena'); bladesFired = false; }
-      else if (y < g2.top + (g2.h || innerHeight) * 0.3) setRealm('life');
-      else setRealm('trench');
-    }
-
-    /* mobile dock appears after the hero */
-    const dock = $('#dock');
-    if (dock) dock.classList.toggle('up', scrollY > innerHeight * 0.75);
-
-    schedule();
-  }
-  function schedule() { if (!rafId && !document.hidden) rafId = requestAnimationFrame(frame); }
-  addEventListener('scroll', () => { dirty = true; schedule(); }, { passive: true });
-  addEventListener('resize', () => { measure(); dirty = true; schedule(); }, { passive: true });
-  document.addEventListener('visibilitychange', () => {
-    if (document.hidden) { cancelAnimationFrame(rafId); rafId = 0; }
-    else { measure(); dirty = true; schedule(); }
-  });
-  measure(); schedule();
-  addEventListener('load', () => { measure(); dirty = true; schedule(); });
+  addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
 
   /* ─────────── live data — stale, never zero ─────────── */
   const fmtMoney = n => {
@@ -181,11 +94,18 @@
       return;
     }
     box.classList.remove('nodata');
-    // HP is the inverted 24h move, clamped to +-40% of the bar's half-width
-    const mag = Math.min(Math.abs(ch), 40) / 40 * 50;
-    if (ch < 0) { bar.style.left = '50%'; bar.style.width = mag + '%'; }
+    /* Bidirectional readout centred at zero: a red day fills to the right of
+       centre, a green day drains to the left. Clamped at +-40% so a spike
+       cannot overflow the track, with a 2% floor so a flat day is still
+       visible rather than looking broken. */
+    const capped = Math.max(-40, Math.min(40, ch));
+    const mag = Math.max(2, Math.abs(capped) / 40 * 50);
+    if (capped < 0) { bar.style.left = '50%'; bar.style.width = mag + '%'; }
     else { bar.style.left = (50 - mag) + '%'; bar.style.width = mag + '%'; }
-    st.textContent = ch < 0 ? 'The bear ate today.' : 'The bear is losing ground.';
+    bar.style.background = capped < 0
+      ? 'linear-gradient(90deg,#8B0000,#FF3B30)'
+      : 'linear-gradient(270deg,#1f7a3a,#2BD96B)';
+    st.textContent = capped < 0 ? 'The bear ate today.' : 'The bear is losing ground.';
   }
 
   function refresh() {
@@ -250,27 +170,16 @@
     if (c && (c.saveData || /2g/.test(c.effectiveType || ''))) return;
     const v = $('#sigilVid');
     if (!v) return;
-    v.src = 'assets/sigil.mp4';
-    v.play().then(() => v.classList.add('on')).catch(() => {});
+    v.src = 'assets/sigil.mp4?v=2';
+    v.load();
+    const go = () => v.play().then(() => v.classList.add('on')).catch(() => {});
+    v.readyState >= 2 ? go() : v.addEventListener('loadeddata', go, { once: true });
     const io = new IntersectionObserver(es => es.forEach(e => {
       if (e.isIntersecting) v.play().catch(() => {}); else v.pause();
     }), { threshold: 0.1 });
     io.observe(v);
     document.addEventListener('visibilitychange', () => { document.hidden ? v.pause() : v.play().catch(() => {}); });
   });
-
-  /* ─────────── lightning, capped for photosensitivity ─────────── */
-  if (!REDUCED) {
-    const bolt = $('#bolt');
-    const strike = () => {
-      if (document.hidden || !bolt) return;
-      const r = bolt.getBoundingClientRect();
-      if (r.bottom < 0) return;
-      bolt.classList.add('flash');
-      setTimeout(() => bolt.classList.remove('flash'), 460);
-    };
-    setInterval(strike, 5200);
-  }
 
   /* ─────────── THE PULL → THE WALL ─────────── */
   const bow = $('#bow'), tension = $('#tension'), string = $('#string');
@@ -314,7 +223,6 @@
     document.addEventListener('visibilitychange', () => {
       if (!document.hidden) setTimeout(() => tiles.forEach(t => t.classList.add('in')), 60);
     });
-    measure();
   }
 
   function release() {

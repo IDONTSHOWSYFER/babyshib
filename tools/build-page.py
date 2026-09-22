@@ -61,7 +61,7 @@ pack_html = "\n".join(
     f'decoding="async" alt="{cap(a)}">' for a in PACK)
 
 PAGE = f"""<!DOCTYPE html>
-<html lang="en" data-realm="arena">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -90,7 +90,7 @@ PAGE = f"""<!DOCTYPE html>
 <body>
 
 <header class="nav" id="nav">
-  <a class="nav__brand" href="#top"><img src="assets/logo.jpg" alt="" width="34" height="34"><span>BABY SHIB</span><span class="nav__realm" id="realmLabel">THE ARENA</span></a>
+  <a class="nav__brand" href="#top"><img src="assets/logo.jpg" alt="" width="34" height="34"><span>BABY SHIB</span></a>
   <nav class="nav__links">
     <a href="#loadout">How to buy</a><a href="#march">The March</a><a href="#goodlife">Good Life</a>
     <a href="#trenches">Trenches</a><a href="#wall">The Wall</a><a href="#faq">FAQ</a>
@@ -101,9 +101,8 @@ PAGE = f"""<!DOCTYPE html>
 <main id="top">
 
 <!-- ══ 1 · REALM I — THE ARENA ══ -->
-<section class="arena" id="arena">
+<section class="arena realm-arena" id="arena">
   <div class="arena__bg">{img(HERO_BG, "100vw", lazy=True)}</div>
-  <div class="bolt" id="bolt" aria-hidden="true"></div>
   <div class="arena__inner">
     <div>
       <span class="eyebrow">Realm I · The Arena</span>
@@ -120,18 +119,18 @@ PAGE = f"""<!DOCTYPE html>
         <li><b>✓</b> Mint revoked</li><li><b>✓</b> Freeze revoked</li><li><b>✓</b> 0% tax</li>
       </ul>
     </div>
-    <div>
+    <div class="hero__art">
       <div class="sigil" id="sigil">
         <span class="sigil__ring" aria-hidden="true"></span>
-        <img src="assets/sigil-poster.webp" width="900" height="900" alt="Baby Shib drawing a glowing bow" fetchpriority="high">
-        <video id="sigilVid" muted playsinline loop preload="none" poster="assets/sigil-poster.webp" aria-hidden="true"></video>
+        <img src="assets/sigil-poster.webp?v=2" width="900" height="900" alt="Baby Shib drawing a glowing bow" fetchpriority="high">
+        <video id="sigilVid" muted playsinline loop autoplay preload="none" poster="assets/sigil-poster.webp?v=2" aria-hidden="true"></video>
       </div>
     </div>
   </div>
 </section>
 
 <!-- ══ 2 · THE TAPE + THE FINAL BOSS ══ -->
-<section class="tape" id="tape">
+<section class="tape realm-arena" id="tape">
   <div class="wrap">
     <div class="tape__grid">
       <div class="cell"><div class="cell__k">Price</div><div class="cell__v mono" id="mPrice">—</div><div class="cell__d mono" id="mChange">24h</div></div>
@@ -146,6 +145,7 @@ PAGE = f"""<!DOCTYPE html>
       <div>
         <div class="boss__t"><h2 class="h-md">THE FINAL BOSS</h2><span class="mono" id="bossState">—</span></div>
         <div class="boss__hp"><i id="bossBar"></i><b></b></div>
+        <div class="boss__scale"><span>-40%</span><span>0</span><span>+40%</span></div>
         <p class="boss__mech">BEAR HP = the live 24h price move from DexScreener, inverted. Green day it drains, red day it refills. That is the whole mechanic.</p>
       </div>
     </div>
@@ -153,7 +153,7 @@ PAGE = f"""<!DOCTYPE html>
 </section>
 
 <!-- ══ 3 · THE LOADOUT ══ -->
-<section class="loadout" id="loadout">
+<section class="loadout realm-arena" id="loadout">
   <div class="wrap">
     <span class="eyebrow">Your loadout</span>
     <h2 class="h-lg">THREE PASSIVES.<br>THREE STEPS.</h2>
@@ -180,7 +180,7 @@ PAGE = f"""<!DOCTYPE html>
 </section>
 
 <!-- ══ 4 · THE MARCH ══ -->
-<section class="march" id="march">
+<section class="march realm-arena" id="march">
   <div class="wrap">
     <span class="eyebrow">The march</span>
     <h2 class="h-lg">SMALL DOG.<br>BIG MOVES.</h2>
@@ -193,14 +193,11 @@ PAGE = f"""<!DOCTYPE html>
   </div>
 </section>
 
-<!-- ══ 5 · GATE I ══ -->
-<section class="gate" id="gate1" aria-hidden="true">
-  <div class="gate__disc" id="disc1"></div>
-  <div class="gate__label" id="lab1">THE GATE OPENS</div>
-</section>
+<!-- ══ 5 · SEAM I ══ -->
+<div class="seam seam--life" aria-hidden="true"><span>THE GATE OPENS</span></div>
 
 <!-- ══ 6 · REALM II — THE GOOD LIFE (no numbers in this realm) ══ -->
-<section class="life" id="goodlife">
+<section class="life realm-life" id="goodlife">
   <div class="wrap">
     <span class="eyebrow">Realm II · The Good Life</span>
     <h2 class="h-lg">WHAT THE DOG<br>DOES OFF-CHART.</h2>
@@ -211,14 +208,11 @@ PAGE = f"""<!DOCTYPE html>
   </div>
 </section>
 
-<!-- ══ 7 · GATE II ══ -->
-<section class="gate" id="gate2" aria-hidden="true">
-  <div class="gate__blades" id="blades"><i></i><i></i><i></i><i></i></div>
-  <div class="gate__slab" id="slab2">YOU ARE NOW IN THE TRENCHES</div>
-</section>
+<!-- ══ 7 · SEAM II ══ -->
+<div class="seam seam--trench" aria-hidden="true"><span>YOU ARE NOW IN THE TRENCHES</span></div>
 
 <!-- ══ 8 · REALM III — THE TRENCHES ══ -->
-<section class="trench" id="trenches">
+<section class="trench realm-trench" id="trenches">
   <div class="wrap">
     <span class="eyebrow" style="color:#0B0B0B">Realm III · The Trenches</span>
     <h2 class="h-lg">IT'S SO OVER.<br>WE'RE SO BACK.</h2>
@@ -230,7 +224,7 @@ PAGE = f"""<!DOCTYPE html>
 </section>
 
 <!-- ══ 9 · THE PULL → THE WALL ══ -->
-<section class="pull" id="pull">
+<section class="pull realm-arena" id="pull">
   <div class="wrap center">
     <span class="eyebrow">The pull</span>
     <h2 class="h-lg" style="color:#FFF6E9">DRAW THE BOW.</h2>
@@ -245,7 +239,7 @@ PAGE = f"""<!DOCTYPE html>
   </div>
 </section>
 
-<section class="wall" id="wall">
+<section class="wall realm-arena" id="wall">
   <div class="wrap">
     <div class="wall__hud"><span>The wall · 01 ticker.</span><span id="wallCount"></span></div>
     <div class="wall__grid" id="wallGrid"></div>
@@ -256,24 +250,12 @@ PAGE = f"""<!DOCTYPE html>
 </section>
 
 <!-- ══ 10 · THE ORIGIN GATE (outbound) ══ -->
-<section class="origin" id="origin">
+<section class="origin realm-arena" id="origin">
   <div class="wrap center">
     <span class="eyebrow">The origin gate</span>
     <h2 class="h-lg" style="color:#FFF6E9">WHERE THE<br>LEGACY BEGAN.</h2>
     <div class="vortex">
       <i></i><i></i><i></i><i></i>
-      <svg class="vortex__bolts" viewBox="0 0 400 400" aria-hidden="true">
-        <g fill="none" stroke="#F90101" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
-          <polyline points="200,200 214,150 196,140 220,86 200,74 226,16"/>
-          <polyline points="200,200 250,186 258,204 314,190 322,208 384,196"/>
-          <polyline points="200,200 186,250 204,258 190,314 208,322 196,384"/>
-          <polyline points="200,200 150,214 142,196 86,210 78,192 16,204"/>
-          <polyline points="200,200 240,164 254,178 296,140 310,154 350,112"/>
-          <polyline points="200,200 236,240 222,254 260,296 246,310 288,350"/>
-          <polyline points="200,200 160,236 146,222 104,260 90,246 50,288"/>
-          <polyline points="200,200 164,160 178,146 140,104 154,90 112,50"/>
-        </g>
-      </svg>
       <a class="vortex__core" href="https://shib.io" target="_blank" rel="noopener noreferrer"><span>ENTER</span><em>SHIB.IO ↗</em></a>
     </div>
     <p class="origin__dis">This portal opens the official Shiba Inu website in a new tab. We are not affiliated with Shiba Inu or Shibarium — no partnership, no bridge, no connection. We are fans of the dog running a community takeover of a separate Solana token.</p>
@@ -281,7 +263,7 @@ PAGE = f"""<!DOCTYPE html>
 </section>
 
 <!-- ══ 11 · THE PACK ══ -->
-<section class="pack" id="pack">
+<section class="pack realm-arena" id="pack">
   <div class="wrap center">
     <span class="eyebrow">The pack</span>
     <h2 class="h-lg">NOBODY HOLDS<br>THIS ALONE.</h2>
@@ -298,7 +280,7 @@ PAGE = f"""<!DOCTYPE html>
 </section>
 
 <!-- ══ 12 · FAQ — the honesty room ══ -->
-<section class="faq" id="faq">
+<section class="faq realm-arena" id="faq">
   <div class="narrow">
     <span class="eyebrow">The honesty room</span>
     <h2 class="h-lg">QUESTIONS,<br>ANSWERED STRAIGHT.</h2>
@@ -316,7 +298,7 @@ PAGE = f"""<!DOCTYPE html>
 </section>
 
 <!-- ══ 13 · THE GATE CLOSES ══ -->
-<section class="close" id="close">
+<section class="close realm-arena" id="close">
   <div class="close__bg">{img(CLOSE_BG, "100vw")}</div>
   <div class="close__inner wrap">
     <span class="eyebrow">The gate closes</span>
@@ -328,7 +310,7 @@ PAGE = f"""<!DOCTYPE html>
 </section>
 </main>
 
-<footer class="foot">
+<footer class="foot realm-arena">
   <div class="wrap">
     <div style="display:flex;align-items:center;gap:13px;margin-bottom:16px">
       <img src="assets/logo.jpg" alt="" width="44" height="44" style="border-radius:50%;border:2px solid var(--accent)" loading="lazy">
