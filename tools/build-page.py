@@ -95,7 +95,18 @@ PAGE = f"""<!DOCTYPE html>
     <a href="#loadout">How to buy</a><a href="#march">The March</a><a href="#goodlife">Good Life</a>
     <a href="#trenches">Trenches</a><a href="#wall">The Wall</a><a href="#faq">FAQ</a>
   </nav>
-  <a class="buy" data-size="sm" href="{JUP}" target="_blank" rel="noopener">BUY $BABYSHIB</a>
+  <div class="nav__social">
+    <a href="{X}" target="_blank" rel="noopener" aria-label="Twitter / X" title="Twitter / X">
+      <svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><path fill="currentColor" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+    </a>
+    <a href="{TG}" target="_blank" rel="noopener" aria-label="Telegram" title="Telegram">
+      <svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><path fill="currentColor" d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 7.617c.18-.002.578.042.836.252a.91.91 0 0 1 .307.653c.008.19.018.617-.035.95-.194 1.244-.897 5.316-1.253 6.996-.15.711-.447.95-.734.976-.625.058-1.1-.412-1.705-.808-.947-.62-1.482-1.007-2.401-1.612-1.062-.7-.374-1.084.232-1.712.159-.164 2.913-2.67 2.966-2.897.007-.028.013-.134-.05-.19s-.156-.037-.223-.022c-.095.022-1.608 1.022-4.54 3-.429.295-.818.439-1.166.431-.384-.008-1.123-.217-1.672-.396-.673-.219-1.208-.335-1.161-.706.024-.194.29-.392.798-.594 3.127-1.362 5.212-2.26 6.256-2.694 2.978-1.239 3.597-1.454 4-1.461z"/></svg>
+    </a>
+    <a href="{DEX}" target="_blank" rel="noopener" aria-label="Chart on DexScreener" title="Chart">
+      <svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><path fill="currentColor" d="M3 3h2v16h16v2H3zm5 11 3.5-4.5 3 3L20 6l1.5 1.5-6 7-3-3L9 16z"/></svg>
+    </a>
+  </div>
+  <a class="buy buy--nav" data-size="sm" href="{JUP}" target="_blank" rel="noopener">BUY<span class="buy__full"> $BABYSHIB</span></a>
 </header>
 
 <main id="top">

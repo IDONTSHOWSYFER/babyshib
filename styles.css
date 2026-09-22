@@ -1,6 +1,7 @@
 /* ═══════════════════════════════════════════════════════════════
    BABY SHIB — THE BABYVERSE GATE
-   Three realms, one ticker. Realm = data-realm on :root.
+   Three realms, one ticker. Each SECTION carries its own realm class,
+   so nothing global ever repaints and the page cannot flash.
    The BUY button is realm-invariant by construction.
    ═══════════════════════════════════════════════════════════════ */
 
@@ -9,7 +10,7 @@
   --buy-bg:#F90101; --buy-fg:#FFF6E9; --buy-ring:#0B0B0B;
   --red:#F90101; --red-flat:#FA0001; --orange:#FA9E23;
   --ink:#0B0B0B; --cream:#FFF6E9;
-  --wrap:1200px;
+  --wrap:1280px;
   --head:'Luckiest Guy', ui-sans-serif, system-ui, sans-serif;
   --body:ui-sans-serif,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",sans-serif;
   --mono:ui-monospace,SFMono-Regular,Menlo,"Roboto Mono",monospace;
@@ -113,23 +114,39 @@ section{position:relative}
 }
 .nav__links a{color:#9A9186}
 .nav__links a:hover{color:#FFF6E9}
-.nav__brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-family:var(--head);font-size:1.05rem}
+.nav__brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-family:var(--head);font-size:1.05rem;white-space:nowrap;flex:0 0 auto}
 .nav__brand img{width:34px;height:34px;border-radius:50%;border:2px solid var(--accent)}
 .nav__realm{font-family:var(--mono);font-size:.62rem;letter-spacing:.2em;color:var(--muted);text-transform:uppercase;margin-left:4px}
-.nav__links{display:flex;gap:20px;margin-left:auto;font-size:.82rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em}
+.nav__links{display:flex;gap:18px;margin-left:auto;font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;white-space:nowrap}
+.nav__social{display:flex;align-items:center;gap:6px;margin-left:16px}
+.nav__social a{display:grid;place-items:center;width:34px;height:34px;border-radius:50%;
+  border:1px solid rgba(249,1,1,.35);color:#FFF6E9;text-decoration:none;
+  transition:background .2s,transform .14s var(--ease),border-color .2s}
+.nav__social a:hover{background:var(--red);border-color:var(--red);transform:translateY(-2px)}
+@media(max-width:1180px){.nav__social{margin-left:auto;gap:5px}}
+@media(max-width:560px){
+  .nav{gap:8px;padding-inline:12px}
+  .nav__brand span:not(.nav__realm){font-size:.95rem}
+  .nav__brand img{width:30px;height:30px}
+  .nav__social{gap:4px}
+  .nav__social a{width:30px;height:30px}
+  .buy__full{display:none}
+  .buy--nav{padding:.58rem 1rem}
+}
+@media(max-width:420px){.nav__social a:nth-child(3){display:none}}
 .nav__links a{text-decoration:none;color:var(--muted);transition:color .2s}
 .nav__links a:hover{color:var(--text)}
-@media(max-width:940px){.nav__links{display:none}.nav .buy{margin-left:auto}}
+@media(max-width:1180px){.nav__links{display:none}.nav .buy{margin-left:8px}}
 
 /* ═══ 1 · THE ARENA (hero) ═══ */
-.arena{min-height:100svh;display:grid;place-items:center;padding:96px 0 60px;overflow:clip}
+.arena{min-height:100svh;display:grid;place-items:center;padding:92px 0 56px;overflow:clip}
 .arena__bg{position:absolute;inset:0;overflow:hidden;pointer-events:none}
 .arena__bg img{width:100%;height:100%;object-fit:cover;opacity:.26;filter:saturate(.92)}
 .arena__bg::after{content:"";position:absolute;inset:0;
   background:radial-gradient(ellipse at 50% 42%,rgba(249,1,1,.34),transparent 62%),
              linear-gradient(180deg,rgba(11,11,11,.72),rgba(11,11,11,.93))}
 
-.arena__inner{position:relative;z-index:2;display:grid;grid-template-columns:1.08fr .92fr;gap:clamp(24px,4vw,56px);align-items:center;width:min(100% - 36px,var(--wrap));margin-inline:auto}
+.arena__inner{position:relative;z-index:2;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:clamp(20px,3vw,44px);align-items:center;width:min(100% - 36px,var(--wrap));margin-inline:auto}
 .arena__inner>*{min-width:0}
 .arena h1{margin:.22em 0 .3em}
 .arena h1 .line2{color:var(--accent);display:block;text-shadow:0 0 44px rgba(249,1,1,.5)}
@@ -140,7 +157,7 @@ section{position:relative}
 .proof b{display:grid;place-items:center;width:18px;height:18px;border-radius:50%;background:#2BD96B;color:#04210f;font-size:.66rem}
 
 /* the circular sigil holding the video */
-.sigil{position:relative;aspect-ratio:1;width:min(90%,470px);margin-inline:auto;border-radius:50%;
+.sigil{position:relative;aspect-ratio:1;width:min(100%,720px);margin-inline:auto;border-radius:50%;
   overflow:hidden;border:3px solid var(--accent);box-shadow:var(--glow),0 30px 70px rgba(0,0,0,.6)}
 .sigil img,.sigil video{width:100%;height:100%;object-fit:cover;display:block}
 .hero__art{display:grid;place-items:center}
@@ -148,7 +165,7 @@ section{position:relative}
 .sigil video.on{opacity:1}
 .sigil::after{content:"";position:absolute;inset:-2px;border-radius:50%;pointer-events:none;
   box-shadow:inset 0 0 70px rgba(249,1,1,.45)}
-.sigil__ring{position:absolute;inset:-16px;border-radius:50%;border:2px dashed rgba(249,1,1,.42);animation:spin 26s linear infinite}
+.sigil__ring{position:absolute;inset:-20px;border-radius:50%;border:2px dashed rgba(249,1,1,.42);animation:spin 26s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 
 /* CA pill */
@@ -168,7 +185,7 @@ section{position:relative}
   .arena__tag{margin-inline:auto}
   .ca{margin-inline:auto}
   .hero__art{order:-1;margin-bottom:2px}
-  .sigil{width:min(58%,240px)}
+  .sigil{width:min(84%,360px)}
   .arena h1{margin:.12em 0 .24em}
 }
 
