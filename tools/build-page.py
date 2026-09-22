@@ -223,25 +223,13 @@ PAGE = f"""<!DOCTYPE html>
   </div>
 </section>
 
-<!-- ══ 9 · THE PULL → THE WALL ══ -->
-<section class="pull realm-arena" id="pull">
-  <div class="wrap center">
-    <span class="eyebrow">The pull</span>
-    <h2 class="h-lg" style="color:#FFF6E9">DRAW THE BOW.</h2>
-    <p class="lead" style="color:#9A9186">Pull the string back and let go. See what the community made.</p>
-    <div class="bow" id="bow">
-      <img src="assets/art/{HERO['s']}-900.webp" width="900" height="900" loading="lazy" decoding="async" alt="Baby Shib drawing a crimson arrow">
-      <svg viewBox="0 0 100 100" aria-hidden="true"><line id="string" x1="78" y1="14" x2="78" y2="86" stroke="#FFF6E9" stroke-width="1.4"/></svg>
-    </div>
-    <div class="tension"><i id="tension"></i></div>
-    <p class="pull__hint" id="pullHint">Drag the string · or press and hold Space</p>
-    <button class="skip" id="skipPull">Skip — show me the wall</button>
-  </div>
-</section>
-
+<!-- ══ 9 · THE WALL ══ -->
 <section class="wall realm-arena" id="wall">
   <div class="wrap">
-    <div class="wall__hud"><span>The wall · 01 ticker.</span><span id="wallCount"></span></div>
+    <span class="eyebrow">The wall</span>
+    <h2 class="h-lg">EVERY LAST ONE<br>OF THEM.</h2>
+    <p class="lead">Made by the community, for the timeline. Tap any one of them.</p>
+    <div class="wall__hud"><span>Right-click, save, post.</span><span id="wallCount"></span></div>
     <div class="wall__grid" id="wallGrid"></div>
     <div class="center" style="margin-top:34px">
       <a class="buy" data-size="lg" href="{JUP}" target="_blank" rel="noopener">BUY $BABYSHIB</a>
@@ -327,9 +315,6 @@ PAGE = f"""<!DOCTYPE html>
   <span class="buy" data-size="sm" style="pointer-events:none">BUY NOW</span>
 </a>
 
-<div class="flash" id="flash"></div>
-<div class="shock" id="shock"></div>
-<div class="arrowfly" id="arrowfly">➤</div>
 <div class="toast" id="toast"></div>
 
 <div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Artwork">

@@ -90,7 +90,8 @@
     const bar = $('#bossBar'), st = $('#bossState'), box = $('#boss');
     if (!bar || !st || !box) return;
     if (ch == null || isNaN(ch)) {
-      box.classList.add('nodata'); st.textContent = 'NO DATA'; bar.style.width = '0';
+      box.classList.add('nodata'); st.textContent = 'NO DATA';
+      bar.style.width = '0'; bar.classList.remove('neg', 'pos');
       return;
     }
     box.classList.remove('nodata');
@@ -102,9 +103,8 @@
     const mag = Math.max(2, Math.abs(capped) / 40 * 50);
     if (capped < 0) { bar.style.left = '50%'; bar.style.width = mag + '%'; }
     else { bar.style.left = (50 - mag) + '%'; bar.style.width = mag + '%'; }
-    bar.style.background = capped < 0
-      ? 'linear-gradient(90deg,#8B0000,#FF3B30)'
-      : 'linear-gradient(270deg,#1f7a3a,#2BD96B)';
+    bar.classList.toggle('neg', capped < 0);
+    bar.classList.toggle('pos', capped >= 0);
     st.textContent = capped < 0 ? 'The bear ate today.' : 'The bear is losing ground.';
   }
 
@@ -181,103 +181,54 @@
     document.addEventListener('visibilitychange', () => { document.hidden ? v.pause() : v.play().catch(() => {}); });
   });
 
-  /* ─────────── THE PULL → THE WALL ─────────── */
-  const bow = $('#bow'), tension = $('#tension'), string = $('#string');
+  /* ─────────── THE WALL — loads itself when approached ─────────── */
   const wall = $('#wall'), grid = $('#wallGrid');
-  let drawn = 0, dragging = false, fired = false;
-
-  const setDraw = d => {
-    drawn = Math.max(0, Math.min(1, d));
-    if (tension) tension.style.width = (drawn * 100) + '%';
-    if (string) string.setAttribute('x1', String(78 - drawn * 26));
-    if (bow) bow.style.transform = `translateX(${-drawn * 5}px)`;
-  };
+  let wallLoaded = false;
 
   async function loadWall() {
-    if (fired) return;
-    fired = true;
+    if (wallLoaded || !grid) return;
+    wallLoaded = true;
     let art = [];
     try { art = await fetch('assets/art.json').then(r => r.json()); } catch (e) { art = []; }
-    if (!art.length) { toast('Could not load the wall'); return; }
-    wall.classList.add('open');
+    if (!art.length) { wall.style.display = 'none'; return; }
     $('#wallCount').textContent = art.length + ' originals';
-    const cx = innerWidth / 2, cy = innerHeight / 2;
-    art.forEach((a, i) => {
+    const frag = document.createDocumentFragment();
+    art.forEach(a => {
       const b = document.createElement('button');
       b.className = 'tile';
       b.type = 'button';
       b.dataset.slug = a.s;
       b.dataset.cap = a.c;
-      b.innerHTML = `<img src="assets/art/${a.s}-224.webp" width="224" height="224" loading="lazy" decoding="async" alt="${a.c.replace(/"/g, '&quot;')}">`;
-      if (!REDUCED) {
-        b.style.setProperty('--dx', (Math.cos(i) * cx * 0.8) + 'px');
-        b.style.setProperty('--dy', (Math.sin(i * 1.7) * cy * 0.8) + 'px');
-      }
-      grid.appendChild(b);
+      b.innerHTML = '<img src="assets/art/' + a.s + '-224.webp" width="224" height="224" loading="lazy" decoding="async" alt="' + a.c.replace(/"/g, '&quot;') + '">';
+      frag.appendChild(b);
     });
-    wall.scrollIntoView({ behavior: REDUCED ? 'auto' : 'smooth', block: 'start' });
+    grid.appendChild(frag);
     const tiles = $$('.tile');
-    tiles.forEach((t, i) => setTimeout(() => t.classList.add('in'), REDUCED ? 0 : (i % 24) * 14 + Math.floor(i / 24) * 260));
-    // safety net: a backgrounded tab freezes transitions and would strand tiles invisible
-    setTimeout(() => tiles.forEach(t => t.classList.add('in')), 4200);
-    document.addEventListener('visibilitychange', () => {
-      if (!document.hidden) setTimeout(() => tiles.forEach(t => t.classList.add('in')), 60);
-    });
-  }
-
-  function release() {
-    if (!dragging) return;
-    dragging = false;
-    bow?.releasePointerCapture?.(0);
-    if (drawn < 0.25) { setDraw(0); return; }
-    setDraw(0);
-    if (REDUCED) return loadWall();
-    const fl = $('#flash'), sh = $('#shock'), ar = $('#arrowfly');
-    if (ar) {
-      ar.style.cssText = 'opacity:1;transform:translate(-50%,-50%) scale(1.4);transition:transform .24s cubic-bezier(.3,0,.7,1),opacity .24s';
-      requestAnimationFrame(() => { ar.style.transform = 'translate(60vw,-50%) scale(.6)'; });
-      setTimeout(() => { ar.style.opacity = '0'; }, 240);
+    if (REDUCED || !('IntersectionObserver' in window)) {
+      tiles.forEach(t => t.classList.add('in'));
+      return;
     }
-    setTimeout(() => {
-      if (fl) { fl.style.cssText = 'opacity:.9;transition:opacity .06s'; setTimeout(() => { fl.style.opacity = '0'; }, 60); }
-      if (sh) {
-        sh.style.cssText = 'opacity:1;transform:scale(0);transition:transform .7s cubic-bezier(.2,.7,.3,1),opacity .7s';
-        requestAnimationFrame(() => { sh.style.transform = 'scale(26)'; sh.style.opacity = '0'; });
-      }
-      loadWall();
-    }, 240);
+    const io = new IntersectionObserver(es => es.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    }), { threshold: 0.05, rootMargin: '120px' });
+    tiles.forEach((t, i) => { t.style.transitionDelay = (i % 8) * 35 + 'ms'; io.observe(t); });
+    /* a backgrounded tab freezes transitions: never leave a tile invisible */
+    const unstick = () => tiles.forEach(t => {
+      const r = t.getBoundingClientRect();
+      if (r.top < innerHeight * 1.5 && r.bottom > -200) { t.style.transitionDelay = '0ms'; t.classList.add('in'); }
+    });
+    document.addEventListener('visibilitychange', () => { if (!document.hidden) setTimeout(unstick, 60); });
+    setTimeout(unstick, 3000);
   }
 
-  if (bow && !REDUCED) {
-    const rect = () => bow.getBoundingClientRect();
-    bow.addEventListener('pointerdown', e => {
-      dragging = true; bow.setPointerCapture?.(e.pointerId); e.preventDefault();
-    });
-    bow.addEventListener('pointermove', e => {
-      if (!dragging) return;
-      const r = rect();
-      setDraw((r.left + r.width - e.clientX) / 180);
-    });
-    bow.addEventListener('pointerup', release);
-    bow.addEventListener('pointercancel', release);
-    let held = false;
-    addEventListener('keydown', e => {
-      if ((e.code === 'Space' || e.code === 'Enter') && document.activeElement === document.body && !held) {
-        const r = rect();
-        if (r.top > innerHeight || r.bottom < 0) return;
-        e.preventDefault(); held = true; dragging = true;
-        let d = 0;
-        const t = setInterval(() => { d += 0.08; setDraw(d); if (d >= 1) clearInterval(t); }, 40);
-        bow._t = t;
-      }
-    });
-    addEventListener('keyup', e => {
-      if ((e.code === 'Space' || e.code === 'Enter') && held) { held = false; clearInterval(bow._t); release(); }
-    });
-  } else if (bow) {
-    $('#pullHint').textContent = 'Reduced motion is on — use the button below';
+  if (wall && 'IntersectionObserver' in window) {
+    const wio = new IntersectionObserver(es => {
+      if (es.some(e => e.isIntersecting)) { wio.disconnect(); loadWall(); }
+    }, { rootMargin: '600px' });
+    wio.observe(wall);
+  } else {
+    addEventListener('load', loadWall);
   }
-  $('#skipPull')?.addEventListener('click', loadWall);
 
   /* ─────────── lightbox ─────────── */
   const lb = $('#lb');
